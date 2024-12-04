@@ -17,7 +17,7 @@ x2_max = 29
 precision = 4
 iterations = 150000
 variables_number = 30
-step = 0.01
+step = 0.08
 
 def function(x1, x2):
     def f1(x1, x2):

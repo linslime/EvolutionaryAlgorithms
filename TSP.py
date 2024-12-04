@@ -5,8 +5,8 @@ import copy
 import time
 
 
-data_path = 'gr17.txt'
-iterations = 250000
+data_path = 'gr48.txt'
+iterations = 200000
 
 
 def get_distance_matrix(path):
