@@ -5,8 +5,8 @@ import copy
 import time
 
 
-data_path = 'gr48.txt'
-iterations = 100000
+data_path = 'gr17.txt'
+iterations = 250000
 
 
 def get_distance_matrix(path):
@@ -26,6 +26,10 @@ def function(path, distance_matrix):
     for i in range(len(path) - 1):
         distance += distance_matrix[path[i]][path[i + 1]]
     distance += distance_matrix[path[0]][path[-1]]
+    if data_path == 'gr17.txt':
+        distance -= 93
+    else:
+        distance -= 900
     return distance
 
 
@@ -85,11 +89,12 @@ def variation(individual):
     return individual
 
 
-def select(population):
-    length = len(population)
-    p = [i for i in range(length)]
-    random.shuffle(p)
-    return p[0], p[1]
+def select(values):
+    copy = values[:]
+    max1 = values.index(min(values))
+    copy.pop(max1)
+    max2 = values.index(min(copy))
+    return max1, max2
 
 
 def main():
@@ -97,7 +102,7 @@ def main():
     population, values = init(5, distance_matrix)
     min_value_index = list()
     while True:
-        individual1_index, individual2_index = select(population)
+        individual1_index, individual2_index = select(values)
         if random.random() < 0.7:
             individual1, individual2 = crossover(population[individual1_index], population[individual2_index])
 

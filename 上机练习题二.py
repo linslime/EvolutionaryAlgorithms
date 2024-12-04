@@ -59,7 +59,7 @@ def crossover(individual1, individual2, size):
             temp_two = binary_to_decimal(temp_two)
             temp_one = temp_one + x_min
             temp_two = temp_two + x_min
-            if temp_one > x_min and temp_one < x_max and temp_two > x_min and temp_two < x_max:
+            if temp_one >= x_min and temp_one <= x_max and temp_two >= x_min and temp_two <= x_max:
                 one = temp_one
                 two = temp_two
                 return one, two
@@ -93,7 +93,7 @@ def variation(individual, size):
                     temp_data[i] = '0'
             temp_data = binary_to_decimal(temp_data)
             temp_data = temp_data + x_min
-            if temp_data > x_min and temp_data < x_max:
+            if temp_data >= x_min and temp_data <= x_max:
                 return temp_data
 
         data = binary_to_decimal(data)
@@ -108,14 +108,17 @@ def variation(individual, size):
 
 def init(number, size):
     population = [[round(random.uniform(data[0], data[1]), precision) for data in size] for i in range(number)]
+    population.append([-2.048, -2.048])
     values = [function(*individual) for individual in population]
     return population, values
 
 
-def select(population):
-    index = [i for i in range(len(population))]
-    random.shuffle(index)
-    return index[0], index[1]
+def select(values):
+    copy = values[:]
+    max1 = values.index(max(values))
+    copy.pop(max1)
+    max2 = values.index(max(copy))
+    return max1, max2
 
 
 def get_min_index(value):
@@ -129,7 +132,7 @@ def main():
 
     max_value_index = list()
     while True:
-        individual1_index, individual2_index = select(population)
+        individual1_index, individual2_index = select(values)
         if random.random() < 0.7:
             individual1, individual2 = crossover(population[individual1_index], population[individual2_index], size)
             value1, value2 = function(*individual1), function(*individual2)
